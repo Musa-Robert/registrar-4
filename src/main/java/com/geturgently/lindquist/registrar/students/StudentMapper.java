@@ -26,7 +26,7 @@ public class StudentMapper {
                 .updatedAt(dateMapper.mapToDto(student.getUpdatedAt()))
                 .build();
 
-        return null;
+        return studentDTO;
     }
 
     public Student mapToEntity(StudentDTO studentDTO) {
