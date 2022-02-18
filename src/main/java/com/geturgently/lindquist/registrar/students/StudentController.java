@@ -11,29 +11,33 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
 
     private final StudentService studentService;
+    private final StudentMapper studentMapper;
 
     @Autowired
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, StudentMapper studentMapper) {
         this.studentService = studentService;
+        this.studentMapper = studentMapper;
     }
 
     //GET localhost:8080/students/123
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Student getStudentById(@PathVariable("id") final Long id) {
+    public StudentDTO getStudentById(@PathVariable("id") final Long id) {
         Student student = studentService.getStudentById(id);
 //        if(student == null) {
 //            throw new NotFoundException();
 //        }
-        return student;
+
+        StudentDTO studentDTO = studentMapper.mapToDTO(student);
+        return studentDTO;
     }
 
     //POST localhost:8080/students?firstName=Musa&lastName=Moylam&emailAddress=mmoylam@geturgently.com&phoneNumber=8115551234
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Student createStudent(@RequestParam(name="firstName", required = false) String firstName,
+    public StudentDTO createStudent(@RequestParam(name="firstName", required = false) String firstName,
                                  @RequestParam(name="lastName", required = false) String lastName,
                                  @RequestParam(name="emailAddress", required = false) String emailAddress,
                                  @RequestParam(name="phoneNumber", required = false) String phoneNumber) {
@@ -46,7 +50,8 @@ public class StudentController {
                 .build();
 
         Student savedStudent = studentService.createStudent(newStudent);
-        return savedStudent;
+        StudentDTO studentDTO = studentMapper.mapToDTO(savedStudent);
+        return studentDTO;
     }
 
 
