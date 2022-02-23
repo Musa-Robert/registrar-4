@@ -9,6 +9,9 @@ import java.util.Date;
 public class DateMapper {
 
     public DateTimeDTO mapToDto(Date date) {
+        if(date == null){
+            return  null;
+        }
         SimpleDateFormat dateSdf = new SimpleDateFormat("MM/dd/yyyy");
         SimpleDateFormat timeAmPmSdf = new SimpleDateFormat("hh:mm:ss a");
         SimpleDateFormat time24HoursSdf = new SimpleDateFormat("HH:mm:ss");
